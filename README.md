@@ -29,10 +29,30 @@ water_quality_monitor/
 ## Instalación
 
 ```bash
+# 1. Instalar los Requerimientos
 pip install -r requirements.txt
 ```
 
-## Uso rápido
+## Configurar Jupyter y Entorno Virtual (venv)
+
+1. Instalar Extension de Jupyter en VSCode
+
+```bash
+https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter
+```
+
+2. Instalar Jupyter en Python
+
+```bash
+pip install jupyter notebook ipykernel
+```
+
+3. Seleccionar un Kernel (Entorno de Pyton)
+   - Abre o crea un archivo .ipynb
+   - En la esquina superior derecha verás "Select Kernel"
+   - Elige tu intérprete de Python (o un entorno virtual si usas uno)
+
+## Uso rápido (RAW)
 
 ```bash
 # 1. Preprocesar los datos
