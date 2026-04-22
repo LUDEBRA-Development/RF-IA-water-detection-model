@@ -1,9 +1,11 @@
 # Sistema de Monitoreo de Calidad del Agua
 
 Modelo de Machine Learning con Random Forest para estimar la potabilidad del agua
-usando variables fisicoquimicas medidas por sensores y laboratorio.
+usando variables fisicoquímicas medidas por sensores y laboratorio.
 
-Variables de entrada:
+## Variables
+
+**Entrada:**
 
 - `ph`
 - `Hardness`
@@ -15,7 +17,7 @@ Variables de entrada:
 - `Trihalomethanes`
 - `Turbidity`
 
-Variable de salida:
+**Salida:**
 
 - `Potability`
 
@@ -27,7 +29,7 @@ RF-IA-water-detection-model/
 |   |-- raw/            # Dataset original de Kaggle
 |   `-- processed/      # Datos limpios y listos para entrenar
 |-- models/             # Modelo entrenado guardado (.pkl)
-|-- notebooks/          # Exploracion y analisis del dataset
+|-- notebooks/          # Exploración y análisis del dataset
 |-- src/
 |   |-- data/
 |   |   |-- download_dataset.py
@@ -40,13 +42,29 @@ RF-IA-water-detection-model/
 `-- README.md
 ```
 
-## Instalacion
+## Instalación
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Uso rapido
+## Configurar Jupyter y Entorno Virtual
+
+1. Instalar la extensión de Jupyter en VSCode:
+   [Jupyter Extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
+
+2. Instalar Jupyter en Python:
+
+```bash
+pip install jupyter notebook ipykernel
+```
+
+3. Seleccionar un Kernel:
+   - Abre o crea un archivo `.ipynb`
+   - En la esquina superior derecha haz clic en **"Select Kernel"**
+   - Elige tu intérprete de Python o entorno virtual
+
+## Uso rápido
 
 ```bash
 # 1. Descargar el dataset
