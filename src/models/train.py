@@ -23,6 +23,10 @@ def load_processed_data() -> tuple[pd.DataFrame, pd.Series]:
     df = pd.read_csv(PROCESSED_PATH)
     X = df.drop(columns=[TARGET_COLUMN])
     y = df[TARGET_COLUMN]
+
+    if X.empty:
+        raise ValueError("El dataset procesado no contiene variables de entrada para entrenar.")
+
     return X, y
 
 

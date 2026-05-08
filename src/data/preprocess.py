@@ -13,17 +13,8 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 RAW_PATH = BASE_DIR / "data/raw/water_potability.csv"
 PROCESSED_PATH = BASE_DIR / "data/processed/water_potability_clean.csv"
 TARGET_COLUMN = "Potability"
-FEATURE_COLUMNS = [
-    "ph",
-    "Hardness",
-    "Solids",
-    "Chloramines",
-    "Sulfate",
-    "Conductivity",
-    "Organic_carbon",
-    "Trihalomethanes",
-    "Turbidity",
-]
+SELECTED_FEATURE_COLUMNS = ["ph", "Turbidity", "Conductivity", "Solids"]
+MISSING_PROJECT_SENSOR = "temperatura"
 
 
 def load_data(path: Path) -> pd.DataFrame:
@@ -50,9 +41,10 @@ def inspect_data(df: pd.DataFrame) -> None:
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Limpieza basica:
+    Limpieza del dataset:
     - Elimina duplicados.
-    - Rellena nulos de variables numericas con la mediana.
+    - Rellena nulos numericos con la mediana.
+    - Recorta valores extremos con el metodo IQR.
     """
     clean_df = df.drop_duplicates().copy()
 
@@ -62,18 +54,41 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     for col in feature_numeric_columns:
         clean_df[col] = clean_df[col].fillna(clean_df[col].median())
 
+    outlier_summary = {}
+    for col in SELECTED_FEATURE_COLUMNS:
+        q1 = clean_df[col].quantile(0.25)
+        q3 = clean_df[col].quantile(0.75)
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+
+        outlier_count = ((clean_df[col] < lower_bound) | (clean_df[col] > upper_bound)).sum()
+        outlier_summary[col] = int(outlier_count)
+        clean_df[col] = clean_df[col].clip(lower=lower_bound, upper=upper_bound)
+
     print(f"\nDataset limpio: {clean_df.shape[0]} filas, {clean_df.shape[1]} columnas")
     print("\n--- Nulos despues de limpiar ---")
     print(clean_df.isnull().sum().to_string())
+    print("\n--- Valores extremos recortados (IQR) ---")
+    print(pd.Series(outlier_summary).to_string())
     return clean_df
 
 
-def select_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-    """Separa variables de entrada y salida."""
-    X = df[FEATURE_COLUMNS].copy()
+def select_project_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    """
+    Conserva las variables mas utiles del dataset para el proyecto actual.
+    El modelo sigue sin temperatura porque el dataset original no la contiene.
+    """
+    X = df[SELECTED_FEATURE_COLUMNS].copy()
     y = df[TARGET_COLUMN].copy()
-    print(f"\nEntradas ({len(FEATURE_COLUMNS)}): {FEATURE_COLUMNS}")
+    print(f"\nEntradas seleccionadas ({len(SELECTED_FEATURE_COLUMNS)}): {SELECTED_FEATURE_COLUMNS}")
     print(f"Salida: {TARGET_COLUMN}")
+    print(
+        "\nNota metodologica: el sistema fue pensado para soportar temperatura, "
+        f"pero el dataset original no contiene esa variable ({MISSING_PROJECT_SENSOR}). "
+        "Por eso el modelo actual usa pH, turbidez, conductividad y solidos disueltos."
+    )
+
     return X, y
 
 
@@ -87,7 +102,7 @@ if __name__ == "__main__":
     df = load_data(RAW_PATH)
     inspect_data(df)
     clean_df = clean_data(df)
-    X, y = select_features(clean_df)
+    X, y = select_project_features(clean_df)
 
     output_df = X.copy()
     output_df[TARGET_COLUMN] = y

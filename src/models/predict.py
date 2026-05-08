@@ -12,17 +12,7 @@ import numpy as np
 BASE_DIR = Path(__file__).resolve().parents[2]
 MODEL_PATH = BASE_DIR / "models/random_forest.pkl"
 SCALER_PATH = BASE_DIR / "models/scaler.pkl"
-FEATURE_NAMES = [
-    "ph",
-    "Hardness",
-    "Solids",
-    "Chloramines",
-    "Sulfate",
-    "Conductivity",
-    "Organic_carbon",
-    "Trihalomethanes",
-    "Turbidity",
-]
+FEATURE_NAMES = ["ph", "Turbidity", "Conductivity", "Solids"]
 
 
 def predict_sample(**sample_values: float) -> dict:
@@ -53,25 +43,15 @@ if __name__ == "__main__":
     samples = [
         {
             "ph": 7.0,
-            "Hardness": 200.0,
-            "Solids": 20000.0,
-            "Chloramines": 7.0,
-            "Sulfate": 330.0,
-            "Conductivity": 420.0,
-            "Organic_carbon": 14.0,
-            "Trihalomethanes": 66.0,
             "Turbidity": 4.0,
+            "Conductivity": 420.0,
+            "Solids": 21000.0,
         },
         {
             "ph": 4.5,
-            "Hardness": 260.0,
-            "Solids": 38000.0,
-            "Chloramines": 10.0,
-            "Sulfate": 390.0,
-            "Conductivity": 600.0,
-            "Organic_carbon": 20.0,
-            "Trihalomethanes": 95.0,
             "Turbidity": 5.8,
+            "Conductivity": 610.0,
+            "Solids": 38500.0,
         },
     ]
 
