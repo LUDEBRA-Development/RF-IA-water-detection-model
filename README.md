@@ -1,25 +1,29 @@
 # Sistema de Monitoreo de Calidad del Agua
 
 Modelo de Machine Learning con Random Forest para estimar la potabilidad del agua
-usando variables fisicoquímicas medidas por sensores y laboratorio.
+usando solo las variables de sensores definidas en el proyecto.
 
 ## Variables
 
 **Entrada:**
 
 - `ph`
-- `Hardness`
-- `Solids`
-- `Chloramines`
-- `Sulfate`
-- `Conductivity`
-- `Organic_carbon`
-- `Trihalomethanes`
 - `Turbidity`
+- `Conductivity`
+- `Solids`
 
 **Salida:**
 
 - `Potability`
+
+## Estado del dataset
+
+El preprocesamiento parte de `data/raw/water_potability.csv` y deja el dataset listo
+para entrenar con `ph`, `Turbidity`, `Conductivity` y `Solids`.
+
+El sistema fue disenado para soportar sensores de temperatura, pero el dataset
+utilizado no contiene esa variable, por lo que el modelo actual se entrena con
+pH y turbidez junto a otras variables fisicoquimicas disponibles.
 
 ## Estructura del proyecto
 
@@ -29,7 +33,7 @@ RF-IA-water-detection-model/
 |   |-- raw/            # Dataset original de Kaggle
 |   `-- processed/      # Datos limpios y listos para entrenar
 |-- models/             # Modelo entrenado guardado (.pkl)
-|-- notebooks/          # Exploración y análisis del dataset
+|-- notebooks/          # Exploracion y analisis del dataset
 |-- src/
 |   |-- data/
 |   |   |-- download_dataset.py
@@ -42,7 +46,7 @@ RF-IA-water-detection-model/
 `-- README.md
 ```
 
-## Instalación
+## Instalacion
 
 ```bash
 pip install -r requirements.txt
@@ -50,7 +54,7 @@ pip install -r requirements.txt
 
 ## Configurar Jupyter y Entorno Virtual
 
-1. Instalar la extensión de Jupyter en VSCode:
+1. Instalar la extension de Jupyter en VSCode:
    [Jupyter Extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
 
 2. Instalar Jupyter en Python:
@@ -62,9 +66,9 @@ pip install jupyter notebook ipykernel
 3. Seleccionar un Kernel:
    - Abre o crea un archivo `.ipynb`
    - En la esquina superior derecha haz clic en **"Select Kernel"**
-   - Elige tu intérprete de Python o entorno virtual
+   - Elige tu interprete de Python o entorno virtual
 
-## Uso rápido
+## Uso rapido
 
 ```bash
 # 1. Descargar el dataset
