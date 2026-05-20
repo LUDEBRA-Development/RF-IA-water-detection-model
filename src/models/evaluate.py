@@ -85,7 +85,12 @@ def plot_feature_importance(model, feature_names: list[str]) -> None:
     ax.invert_yaxis()
 
     for bar, val in zip(bars, importances[indices]):
-        ax.text(bar.get_width() + 0.002, bar.get_y() + bar.get_height() / 2, f"{val:.3f}", va="center")
+        ax.text(
+            bar.get_width() + 0.002,
+            bar.get_y() + bar.get_height() / 2,
+            f"{val:.3f}",
+            va="center",
+        )
 
     plt.tight_layout()
     path = REPORTS_DIR / "feature_importance.png"

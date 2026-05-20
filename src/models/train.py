@@ -69,7 +69,9 @@ def train_model(X_train, y_train) -> RandomForestClassifier:
     print("Entrenamiento completado.")
 
     cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring="f1")
-    print(f"\nValidacion cruzada F1 (5 folds): {cv_scores.mean():.3f} +/- {cv_scores.std():.3f}")
+    print(
+        f"\nValidacion cruzada F1 (5 folds): {cv_scores.mean():.3f} +/- {cv_scores.std():.3f}"
+    )
     return model
 
 
@@ -89,6 +91,10 @@ if __name__ == "__main__":
     save_artifacts(model, scaler)
 
     processed_dir = PROCESSED_PATH.parent
-    pd.DataFrame(X_test_scaled, columns=X.columns).to_csv(processed_dir / "X_test.csv", index=False)
-    pd.Series(y_test.values, name=TARGET_COLUMN).to_csv(processed_dir / "y_test.csv", index=False)
+    pd.DataFrame(X_test_scaled, columns=X.columns).to_csv(
+        processed_dir / "X_test.csv", index=False
+    )
+    pd.Series(y_test.values, name=TARGET_COLUMN).to_csv(
+        processed_dir / "y_test.csv", index=False
+    )
     print("\nDatos de prueba guardados para evaluacion.")
